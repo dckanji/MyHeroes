@@ -12,11 +12,12 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 //以下皆來自heroes 範例中的組件
-import { AppRoutingModule }     from './app-routing.module';
+import { AppRoutingModule }     from './app-routing.module'; //路由組件
 
 //为了在没有服务端的情况下提前运行和调试angular项目,需要一个构建在内存中的模拟数据库,和对应的api
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api'; 
 import { InMemoryDataService }  from './in-memory-data.service';
+
 import { DashboardComponent }   from './dashboard/dashboard.component';
 import { HeroDetailComponent }  from './hero-detail/hero-detail.component';
 import { HeroesComponent }      from './heroes/heroes.component';
@@ -47,10 +48,12 @@ import { MessagesComponent }    from './messages/messages.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ]),
+    //路由模塊
     AppRoutingModule,
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
+    // 为了在没有服务端的情况下提前运行和调试angular项目,需要一个构建在内存中的模拟数据库,和对应的api
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     )
