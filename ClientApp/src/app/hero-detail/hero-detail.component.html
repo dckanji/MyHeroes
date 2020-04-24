@@ -1,9 +1,19 @@
+************hero detail****************
 <div *ngIf="hero">
-  <h2>{{hero.name | uppercase}} Details</h2>
+  <!-- | uppercase |表示管道 都轉為大寫 管道 是格式化字符串、金额、日期和其它显示数据的好办法-->
+  <h2>{{hero.name | uppercase}} 明細組件-詳情</h2>
   <div><span>id: </span>{{hero.id}}</div>
   <div>
     <label>name:
-      <input [(ngModel)]="hero.name" placeholder="name"/>
+      <!-- 双向绑定 [(ngModel)] 是 Angular 的双向数据绑定语法。
+      这里把 hero.name 属性绑定到了 HTML 的 textbox 元素上，以便数据流可以双向流动：
+      从 hero.name 属性流动到 textbox，并且从 textbox 流回到 hero.name 
+      注意，当你加上 [(ngModel)] 之后这个应用无法工作了。
+      打开浏览器的开发工具，就会在控制台中看到如下信息：
+      虽然 ngModel 是一个有效的 Angular 指令，不过它在默认情况下是不可用的。
+      它属于一个可选模块 FormsModule，你必须自行添加此模块(app.module.ts)才能使用该指令。
+      -->
+      <input [(ngModel)]="hero.name" placeholder="請輸入英雄名稱"/>
     </label>
   </div>
   <button (click)="goBack()">go back</button>

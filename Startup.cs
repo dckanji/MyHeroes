@@ -67,8 +67,12 @@ namespace MyHeroes
                     //将超时配置为，以避免“ Angular CLI进程未在50秒的超时时间内开始监听请求”。
                     spa.Options.StartupTimeout = new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 30); 
 
-                    spa.UseAngularCliServer(npmScript: "start");
-                   // spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
+                    //这里就是去调用了ng的start命令去启动这个angular项目
+                    //目前容易產生啟動異常慢...導致產生延遲的異常,目前只能關閉在打開
+                    spa.UseAngularCliServer(npmScript: "start"); //相類似於執行 ng start
+                    
+                    //指定啟動的服務器port...要先自己手動將angular 啟動起來才可以
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
                 }
             });
         }

@@ -1,21 +1,67 @@
-<h2>My Heroes</h2>
+<h2>我的英雄資料列表</h2>
 
 <div>
-  <label>Hero name:
+  <label>英雄名字:
     <input #heroName />
   </label>
   <!-- (click) passes input value to add() and then clears the input -->
   <button (click)="add(heroName.value); heroName.value=''">
-    add
+    增加
   </button>
 </div>
 
+<!-- class="heroes 是css的類別  然后添加表示无序列表的 HTML 元素（<ul>） -->
 <ul class="heroes">
-  <li *ngFor="let hero of heroes">
-    <a routerLink="/detail/{{hero.id}}">
-      <span class="badge">{{hero.id}}</span> {{hero.name | uppercase}}
+  <!-- 在 <ul> 中插入一个 <li> 元素，以显示单个 hero 的属性。
+    *ngFor 是一个 Angular 的复写器（repeater）指令。 它会为列表中的每项数据复写它的宿主元素
+    let hero of heroes 指的是 let(讓) hero of(屬於) heroes
+    heroes 為來自hreoes.component 中的 heroes陣列物件
+
+    [class.selected]="hero === selectedHero" 說明為
+    當選擇到物件 hero 時若和  selectedHero 物件一樣,則使用該css類
+   -->
+  <li *ngFor="let hero of heroes" [class.selected]="hero === selectedHero" >
+    <a routerLink="/detail/{{hero.id}}"> 
+    <!--    | uppercase |表示管道 都轉為大寫 管道 是格式化字符串、金额、日期和其它显示数据的好办法-->
+      <span class="badge">{{hero.id}}</span> {{hero.name | uppercase}} 
     </a>
+    <!-- 在當前畫面下帶出明細-->
+    <button class="detail" title="hero datail"
+    (click)="getDetail(hero)"> 明細 </button>
+   
+    <!-- click 外面的圆括号会让 Angular 监听这个 <li> 元素的 click 事件。 当用户点击 <li> 时，Angular 就会执行表达式 onSelect(hero) -->
     <button class="delete" title="delete hero"
-      (click)="delete(hero)">x</button>
+      (click)="delete(hero)">刪除</button>
+
   </li>
 </ul>
+
+<!-- 上方的 getDetail(hero) 被執行後 hero.component中的 selectedHero 被寫入了hero物件, 
+  此時 selectedHero 有資料存在...才帶出显示所选英雄的详情-->
+<div *ngIf="selectedHero">
+  ***************************************************
+  <h2>{{selectedHero.name | uppercase}} 主組件-詳情</h2>
+
+  <div><span>序號: </span>{{selectedHero.id}}</div>
+  <div>
+    <label>名字:
+      <!-- 資料傳遞 有三种情况、、
+      （ngModel） => 传递方向是  input -> 组件 <input type='text' (ngModel)='username' />
+      [ngModel] => 传递方向是   组件  -> input <input type='text' [ngModel]='username' /> 
+      username赋了值可以影响到input的值，但input的值发生改变的时候，不会影响组件中username的值
+      ([ngModel]) 传递方向是 (组件-> input , input -> 组件)
+      双向绑定，就是说在组件中給username赋了值可以影响到input的值，并且input的值发生改变的时候组件中的username的值也会随之变化
+      placeholder 佔位符..表示該欄位顯示預設的文字..灰色字
+      -->
+      <input [(ngModel)]="selectedHero.name" placeholder="請輸入英雄名稱"/>
+    </label>
+  </div>
+  ***************************************************
+  <div>
+    <!--傳值給子組件進行承接-->
+    <app-hero-detail [hero]="selectedHero"></app-hero-detail>
+  ***************************************************
+  </div>
+  
+
+</div>

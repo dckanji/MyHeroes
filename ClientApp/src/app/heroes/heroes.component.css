@@ -15,6 +15,11 @@
   border-radius: 4px;
 }
 
+.heroes li.selected {
+  background-color: #CFD8DC;
+  color: white;
+}
+
 .heroes li:hover {
   color: #607D8B;
   background-color: #DDD;
@@ -65,6 +70,14 @@ button:hover {
 }
 
 button.delete {
+  position: relative;
+  left: 194px;
+  top: -32px;
+  background-color: gray !important;
+  color: white;
+}
+
+button.detail {
   position: relative;
   left: 194px;
   top: -32px;
