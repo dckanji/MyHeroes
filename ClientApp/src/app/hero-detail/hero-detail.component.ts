@@ -17,22 +17,26 @@ export class HeroDetailComponent implements OnInit {
   @Input() hero: Hero;
 
   constructor(
-    private route: ActivatedRoute,
-    private heroService: HeroService,
-    private location: Location
+    private route: ActivatedRoute, //ActivatedRoute 保存着到这个 HeroDetailComponent 实例的路由信息
+    private heroService: HeroService, //从服务获取英雄数据，本组件将使用它来获取要显示的英雄
+    private location: Location //是一个 Angular 的服务，用来与浏览器打交道 稍后，你就会使用它来导航回上一个视图
   ) {}
 
+  //初始化
   ngOnInit(): void {
     
     this.getHero();
   }
 
 /**
- * 透過session 中的 id 獲取hero的物件
+ * 透過 路由快照 中取得 id參數 並獲取hero的物件...參數一般常為字串
+ * route.snapshot 是一个路由信息的静态快照，抓取自组件刚刚创建完毕之后
+ * paramMap 是一个从 URL 中提取的路由参数值的字典。 "id" 对应的值就是要获取的英雄的 id
+ * 
  */
   getHero(): void {
     const id = +this.route.snapshot.paramMap.get('id');
-    // 判斷id是否存在..若存在則使用id獲取hero物件
+    //kanji add 20200427 判斷id是否存在..若存在則使用id獲取hero物件...否則首次點擊回傳空值
     if (id){
       this.heroService.getHero(id)
       .subscribe(hero => this.hero = hero);

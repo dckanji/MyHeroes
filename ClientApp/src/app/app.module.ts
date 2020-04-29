@@ -48,12 +48,16 @@ import { MessagesComponent }    from './messages/messages.component';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
     ]),
-    //路由模塊
+    // 引用路由模塊
     AppRoutingModule,
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
+    /* The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
     // 为了在没有服务端的情况下提前运行和调试angular项目,需要一个构建在内存中的模拟数据库,和对应的api
+    // 内存 Web API(In-memory Web API)模拟出的远程数据服务器通讯, 操作一个内存数据库，并且给出仿真的响应
+    forRoot() 配置方法接收一个 InMemoryDataService 类来初始化内存数据库
+     InMemoryDataService 檔案為 in-memory-data.service.ts 
+    */
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
     )

@@ -1,5 +1,11 @@
 <h3>Top Heroes</h3>
 <div class="grid grid-pad">
+    <!-- 
+    *ngFor 是一个 Angular 的复写器（repeater）指令。 它会为列表中的每项数据复写它的宿主元素
+    let hero of heroes 指的是 let(讓) hero of(屬於) heroes
+    heroes 為來自hreoes.component 中的 heroes陣列物件
+    並且賦予個路由連結到detail中..帶入id detail/{{hero.id}
+   -->
   <a *ngFor="let hero of heroes" class="col-1-4"
       routerLink="/detail/{{hero.id}}">
     <div class="module hero">

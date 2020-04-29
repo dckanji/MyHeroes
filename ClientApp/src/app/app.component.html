@@ -10,9 +10,13 @@
   標籤直接引用入 app.component.css
 -->
 <h1>{{title}}</h1>
+<!-- 
+  <nav> 元素，并在其中放一个链接 <a> 元素，当点击它时，就会触发一个到 HeroesComponent 的导航
+  routerLink 是 RouterLink 指令的选择器，它会把用户的点击转换为路由器的导航操作
+ -->
 <nav>
-  <a routerLink="/dashboard">Dashboard</a>
-  <a routerLink="/heroes">Heroes</a>
+  <a routerLink="/dashboard">儀表板</a>
+  <a routerLink="/heroes">英雄資料列表</a>
 </nav>
 <router-outlet></router-outlet>
 <app-messages></app-messages>

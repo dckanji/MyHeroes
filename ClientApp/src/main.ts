@@ -15,6 +15,6 @@ const providers = [
 if (environment.production) {
   enableProdMode();
 }
-
+//初始載入模塊
 platformBrowserDynamic(providers).bootstrapModule(AppModule)
   .catch(err => console.log(err));

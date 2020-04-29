@@ -6,8 +6,9 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class InMemoryDataService implements InMemoryDbService {
+  //內存資料庫的資料陣列內容
   createDb() {
-    const heroes = [
+    const memheroes = [
       { id: 11, name: 'Dr Nice' },
       { id: 12, name: 'Narco' },
       { id: 13, name: 'Bombasto' },
@@ -19,7 +20,7 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    return {heroes};
+    return {memheroes};
   }
 
   // Overrides the genId method to ensure that a hero always has an id.
