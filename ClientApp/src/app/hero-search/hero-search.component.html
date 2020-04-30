@@ -1,9 +1,14 @@
 <div id="search-component">
   <h4><label for="search-box">Hero Search</label></h4>
-
+<!--当用户在搜索框中输入时，一个 keyup 事件绑定会调用该组件的 search() 方法，并传入新的搜索框的值。-->
   <input #searchBox id="search-box" (input)="search(searchBox.value)" />
-
+  <!--輸入框下方的結果集列表-->
   <ul class="search-result">
+    <!--*ngFor 在一个名叫 heroes$ 的列表上迭代，而不是 heroes。$ 是一个约定，表示 heroes$ 是一个 Observable 而不是数组
+       heroes$ 定義在hero-serch.componenet.ts
+     *ngFor 不能直接使用 Observable，所以要使用一个管道字符（|），后面紧跟着一个 async。这表示 Angular 的 AsyncPipe 管道，
+     它会自动订阅 Observable，这样你就不用在组件类中这么做了
+    -->
     <li *ngFor="let hero of heroes$ | async" >
       <a routerLink="/detail/{{hero.id}}">
         {{hero.name}}

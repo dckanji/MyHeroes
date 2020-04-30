@@ -38,8 +38,11 @@ export class HeroService {
     //HttpClient 方式(http.get)回傳
     return this.http.get<Hero[]>(this.heroesUrl) 
       .pipe(
-        tap(_ => this.log('fetched heroes')), //透過 log方法 寫入到訊息組件
-        catchError(this.handleError<Hero[]>('getHeroes', []))
+        tap(_ => this.log('fetched heroes')), 
+        // RxJS 的 tap() 操作符来实现-该操作符会查看 Observable 中的值，使用那些值做一些事情，并且把它们传出来
+        //透過 log方法 寫入到訊息組件
+        catchError(this.handleError<Hero[]>('getHeroes', [])) //RxJS 的 catchError() 異常處理
+        //操作符会拦截失败的 Observable。 它把错误对象传给错误处理器，错误处理器会处理这个错误。
       );
   }
 
@@ -63,39 +66,48 @@ export class HeroService {
    * 反引号 ( ` ) 用于定义 JavaScript 的 模板字符串字面量，以便嵌入 id
   */
   getHero(id: number): Observable<Hero> {
-    const url = `${this.heroesUrl}/${id}`; // api/heroes/11
+    const url = `${this.heroesUrl}/${id}`; // 如同:api/heroes/11
     return this.http.get<Hero>(url).pipe(
       tap(_ => this.log(`fetched hero id=${id}`)),
       catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
 
-  /* GET heroes whose name contains search term */
+  /* 搜索英雄
+  */
   searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
       // if not search term, return empty hero array.
-      return of([]);
+      return of([]);//若未輸入則傳回個空物件[陣列]
     }
     return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
       tap(x => x.length ?
-         this.log(`found heroes matching "${term}"`) :
-         this.log(`no heroes matching "${term}"`)),
+         this.log(`有符合關鍵字英雄資料 "${term}"`) : //符合關鍵字
+         this.log(`沒有吻合的關鍵字 "${term}"`)), //沒有找到資料
       catchError(this.handleError<Hero[]>('searchHeroes', []))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new hero to the server */
+  /** 新增資料到 緩存資料庫中
+   * post 增加傳入 url / hero 要寫入的物件 / 請求頭(HttpHeaders)-宣告傳去的格式
+  */
   addHero (hero: Hero): Observable<Hero> {
+
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
-      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+      //tap((newHero: Hero) 生成個id..如何生成暫不清楚?
+      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)), 
       catchError(this.handleError<Hero>('addHero'))
     );
   }
 
-  /** DELETE: delete the hero from the server */
+  /** 從緩存資料庫中刪除資料
+  */
   deleteHero (hero: Hero | number): Observable<Hero> {
+    //三元运算符。一般来说，三目运算符的结合性是右结合的-
+    //条件 ? 结果1 : 结果2 里面的？号是格式要求。也zd可以理解为条件是否成立，条件成立为结果1，否则为结果2
+    //如:z=x>y? x : y => 如果x>y，就把z=x，否则z=y
     const id = typeof hero === 'number' ? hero : hero.id;
     const url = `${this.heroesUrl}/${id}`;
 
@@ -105,7 +117,10 @@ export class HeroService {
     );
   }
 
-  /** PUT: update the hero on the server */
+  /** 更新資料到 緩存資料庫中
+   * HttpClient.put() 方法接受三个参数：URL 地址/要修改的数据（这里就是修改后的英雄）/选项
+   * put()-来把修改后的英雄保存到服务器上
+  */
   updateHero (hero: Hero): Observable<any> {
     return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
       tap(_ => this.log(`updated hero id=${hero.id}`)),
@@ -114,8 +129,8 @@ export class HeroService {
   }
 
   /**
-   * Handle Http operation that failed.
-   * Let the app continue.
+   * 在控制台(console)报告这个错误，并返回一个无害的结果（安全值），以便应用能正常工作
+   *  handleError() 方法会报告这个错误，并返回一个无害的结果（安全值），以便应用能正常工作
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */

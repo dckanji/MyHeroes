@@ -39,9 +39,9 @@ export class HeroesComponent implements OnInit {
    * @param name 
    */
   add(name: string): void {
-    name = name.trim();
+    name = name.trim();//去除空白
     if (!name) { return; }
-    this.heroService.addHero({ name } as Hero)
+    this.heroService.addHero({ name } as Hero)//傳送缺少id的英雄物件到heroService
       .subscribe(hero => {
         this.heroes.push(hero);
       });
